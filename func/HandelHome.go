@@ -6,20 +6,21 @@ import (
 )
 
 type Artist struct {
-	Id int `json:"id"`
-	Name string `json:"name"`
-	Image string `json:"image"`
-	Members []string `json:"members"`
-	CreationDate int `json:"creationDate"`
-	FirstAlbum string `json:"firstAlbum"`
-	Locations string `json:"locations"`
-	ConcertDates string `json:"concertDates"`
-	Relations string `json:"relations"`
+	Id           int      `json:"id"`
+	Name         string   `json:"name"`
+	Image        string   `json:"image"`
+	Members      []string `json:"members"`
+	CreationDate int      `json:"creationDate"`
+	FirstAlbum   string   `json:"firstAlbum"`
+	Locations    string   `json:"locations"`
+	ConcertDates string   `json:"concertDates"`
+	Relations    string   `json:"relations"`
 }
 
 type Page struct {
 	Code     int
 	MsgError string
+	Art      []Artist
 }
 
 var Data = &Page{}
@@ -45,8 +46,7 @@ func RenderPage(page string, res http.ResponseWriter) {
 	}
 }
 
-func Error(res http.ResponseWriter, status int, msgerr 
-		fmt.Println(err.Error())string) {
+func Error(res http.ResponseWriter, status int, msgerr string) {
 	Data.MsgError = msgerr
 	Data.Code = status
 	res.WriteHeader(status)
