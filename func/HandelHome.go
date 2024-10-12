@@ -21,7 +21,7 @@ type Artist struct {
 type Page struct {
 	Code     int
 	MsgError string
-	
+	Art      []Artist
 }
 
 var Data = &Page{}
