@@ -6,15 +6,14 @@
     <title>Document</title>
 </head>
 <ul>
-<li>{{.Name}}</li>
-<li><img src="{{.Image}}" alt=""></li>
-<li>CreationDate: {{.CreationDate}}</li>
-<li>Members: {{.Members}}</li>
-<li>CreationDate: {{.CreationDate}}</li>
-<li>FirstAlbum: {{.FirstAlbum}}</li>
-<li>upcoming conserts: {{.relation}}</li>
-<li>CreationDate: {{.CreationDate}}</li>
-<li>CreationDate: {{.CreationDate}}</li>
+<li>{{.Art.Name}}</li>
+<li><img src="{{.Art.Image}}" alt=""></li>
+<li>CreationDate: {{.Art.CreationDate}}</li>
+<li>Members: {{.Art.Members}}</li>
+<li>CreationDate: {{.Art.CreationDate}}</li>
+<li>FirstAlbum: {{.Art.FirstAlbum}}</li>
+<li>upcoming conserts: {{.Art.relation.datesLocations}}</li>
+
 </ul>
     
 
