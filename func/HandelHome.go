@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Artist struct {
@@ -21,7 +23,8 @@ type Artist struct {
 type Page struct {
 	Code     int
 	MsgError string
-	Art      []Artist
+	Arts     []Artist
+	Art      Artist
 }
 
 var Data = &Page{}
@@ -63,4 +66,20 @@ func HandelHome(res http.ResponseWriter, req *http.Request) {
 		Error(res, 405, "Method Not Allowed")
 	}
 	RenderPage("index", res)
+}
+
+func HandelArtist(res http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodGet {
+		Error(res, 405, "Method Not Allowed")
+	}
+	id := strings.TrimPrefix(req.URL.Path, "/artist/")
+	idTemp, err := strconv.Atoi(id)
+	if err != nil {
+		Error(res, 404, "OOpes Page not Found!!...")
+	}
+	if idTemp < 1 || idTemp > len(Data.Arts) {
+		fmt.Println("error")
+	}
+	Data.Art = Data.Arts[idTemp-1]
+	RenderPage("artist", res)
 }
