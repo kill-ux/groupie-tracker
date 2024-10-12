@@ -22,10 +22,12 @@ func init() {
 	if err := json.NewDecoder(res.Body).Decode(&Groupie.Data.Art); err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)
 	}
-	fmt.Println(Groupie.Data.Art)
 }
 
 func main() {
+	if len(Groupie.Data.Art) == 0 {
+		log.Fatalf("Error fetching data")
+	}
 	http.HandleFunc("/", Groupie.HandelHome)
 	fmt.Println("http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
