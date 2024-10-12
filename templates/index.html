@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    {{ range .Arts }}
-    <a href="/artist/{{.Id}}">
-    <ul>
-        
-        <li>{{.Name}}</li>
-        <li><img src="{{.Image}}" alt=""></li>
-        <li>CreationDate: {{.CreationDate}}</li>
-
-    </ul>
-    </a>
-    {{ end }}
-
+    <h1>Groupie Tracker</h1>
+    <div class="cards">
+        {{ range .Arts }}
+        <a href="/artist/{{.Id}}">
+            <div class="card">
+                <h3>{{.Name}}</h3>
+                <img class="image" src="{{.Image}}" alt="">
+                <p>CreationDate: {{.CreationDate}}</p>
+            </div>
+        </a>
+        {{ end }}
+    </div>
 </body>
 </html>
