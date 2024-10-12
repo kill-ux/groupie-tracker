@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<ul>
+<li>{{.Art.Name}}</li>
+<li><img src="{{.Art.Image}}" alt=""></li>
+<li>CreationDate: {{.Art.CreationDate}}</li>
+<li>Members: {{.Art.Members}}</li>
+<li>CreationDate: {{.Art.CreationDate}}</li>
+<li>FirstAlbum: {{.Art.FirstAlbum}}</li>
+<li>upcoming conserts: {{.Art.relation.datesLocations}}</li>
+
+</ul>
     
-    
+
 </body>
 </html>
