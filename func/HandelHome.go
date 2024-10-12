@@ -1,6 +1,7 @@
 package groupie
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -22,7 +23,8 @@ func RenderPage(page string, res http.ResponseWriter) {
 		Error(res, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
-	err = temp.Execute(res, Art)
+	fmt.Println()
+	err = temp.Execute(res, Data)
 	if err != nil {
 		if page == "error" {
 			http.Error(res, "Internal Server Error", 500)
@@ -34,8 +36,8 @@ func RenderPage(page string, res http.ResponseWriter) {
 }
 
 func Error(res http.ResponseWriter, status int, msgerr string) {
-	Page.MsgError = msgerr
-	Page.Code = status
+	Data.MsgError = msgerr
+	Data.Code = status
 	res.WriteHeader(status)
 	RenderPage("error", res)
 }
