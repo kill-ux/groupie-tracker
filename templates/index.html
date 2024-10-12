@@ -7,17 +7,15 @@
 </head>
 <body>
     {{ range .Art }}
+    <a href="/artist/{{.Id}}">
     <ul>
-        <li>{{.Id}}</li>
+        
         <li>{{.Name}}</li>
         <li><img src="{{.Image}}" alt=""></li>
-        <li>{{.Members}}</li>
-        <li>{{.CreationDate}}</li>
-        <li>{{.FirstAlbum}}</li>
-        <li>{{.Locations}}</li>
-        <li>{{.ConcertDates}}</li>
-        <li>{{.Relations}}</li>
+        <li>CreationDate: {{.CreationDate}}</li>
+
     </ul>
+    </a>
     {{ end }}
 
 </body>
