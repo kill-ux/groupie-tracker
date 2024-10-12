@@ -11,12 +11,16 @@ type Page struct {
 	MsgError string
 }
 
-var Data *Page
+var Data = &Page{}
 
 func RenderPage(page string, res http.ResponseWriter) {
 	temp, err := template.ParseFiles("templates/" + page + ".html")
 	if err != nil {
+		
+
 		if page == "error" {
+			fmt.Println("eeeeeeeeeeeeeee7777777777777")
+
 			http.Error(res, "Internal Server Error", 500)
 			return
 		}
@@ -36,8 +40,12 @@ func RenderPage(page string, res http.ResponseWriter) {
 }
 
 func Error(res http.ResponseWriter, status int, msgerr string) {
+
+
 	Data.MsgError = msgerr
+
 	Data.Code = status
+
 	res.WriteHeader(status)
 	RenderPage("error", res)
 }
