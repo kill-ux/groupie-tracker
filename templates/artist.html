@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Artist</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <ul>
 <li>{{.Art.Name}}</li>
@@ -12,7 +13,7 @@
 <li>Members: {{.Art.Members}}</li>
 <li>CreationDate: {{.Art.CreationDate}}</li>
 <li>FirstAlbum: {{.Art.FirstAlbum}}</li>
-<li>upcoming conserts: {{.Art.relation.datesLocations}}</li>
+<li>upcoming conserts: {{.Art.Concerts.DatesLocations}}</li>
 
 </ul>
     

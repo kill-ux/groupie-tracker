@@ -1,12 +1,19 @@
 package groupie
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
 )
+
+type Concert struct {
+	Id             int                 `json:"id"`
+	DatesLocations map[string][]string `json:"datesLocations"`
+}
 
 type Artist struct {
 	Id           int      `json:"id"`
@@ -18,6 +25,7 @@ type Artist struct {
 	Locations    string   `json:"locations"`
 	ConcertDates string   `json:"concertDates"`
 	Relations    string   `json:"relations"`
+	Concerts     Concert
 }
 
 type Page struct {
@@ -55,15 +63,19 @@ func RenderPage(page string, res http.ResponseWriter) {
 
 func Error(res http.ResponseWriter, status int, msgerr string) {
 	Data.MsgError = msgerr
-
+	res.WriteHeader(status)
 	Data.Code = status
-
 	RenderPage("error", res)
 }
 
 func HandelHome(res http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		Error(res, 405, "Method Not Allowed")
+		return
+	}
+	if req.URL.Path != "/" {
+		Error(res, 404, "Oops!! Page Not Found")
+		return
 	}
 	RenderPage("index", res)
 }
@@ -75,11 +87,26 @@ func HandelArtist(res http.ResponseWriter, req *http.Request) {
 	id := strings.TrimPrefix(req.URL.Path, "/artist/")
 	idTemp, err := strconv.Atoi(id)
 	if err != nil {
-		Error(res, 404, "OOpes Page not Found!!...")
+		Error(res, 404, "Oops!! Page Not Found")
+		return
 	}
 	if idTemp < 1 || idTemp > len(Data.Arts) {
-		fmt.Println("error")
+		Error(res, 404, "Oops!! Page Not Found")
+		return
 	}
 	Data.Art = Data.Arts[idTemp-1]
+	//
+	resGet, err := http.Get(Data.Art.Relations)
+	if err != nil {
+		log.Fatalf("Error fetching data: %v", err.Error())
+	}
+	defer resGet.Body.Close()
+	if resGet.StatusCode != http.StatusOK {
+		log.Fatalf("Error: Status code %d ", resGet.StatusCode)
+	}
+	if err := json.NewDecoder(resGet.Body).Decode(&Data.Art.Concerts); err != nil {
+		log.Fatalf("Error decoding JSON: %v", err)
+	}
+	//
 	RenderPage("artist", res)
 }
