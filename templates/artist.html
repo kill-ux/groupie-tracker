@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artist</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<ul>
-<li>{{.Art.Name}}</li>
-<li><img src="{{.Art.Image}}" alt=""></li>
-<li>CreationDate: {{.Art.CreationDate}}</li>
-<li>Members: {{.Art.Members}}</li>
-<li>CreationDate: {{.Art.CreationDate}}</li>
-<li>FirstAlbum: {{.Art.FirstAlbum}}</li>
-<li>upcoming conserts: {{.Art.Concerts.DatesLocations}}</li>
 
-</ul>
-    
-
+<body>
+    <div class="artist">
+        <div class="div-image">
+            <img class="image-artist" src="{{.Art.Image}}" alt="">
+        </div>
+        <div class="div-content">
+            <h2>{{.Art.Name}}</h2>
+            <div>
+                <p>CreationDate: {{.Art.CreationDate}}</p>
+                <p>FirstAlbum: {{.Art.FirstAlbum}}</p>
+            </div>
+            <div>
+                Members: {{.Art.Members}}
+            </div>
+            <div>upcoming conserts: {{.Art.Concerts.DatesLocations}}</div>
+        </div>
+    </div>
 </body>
+
 </html>
