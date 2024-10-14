@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -29,26 +30,22 @@ type Artist struct {
 }
 
 type Page struct {
-	Code     int
-	MsgError string
-	Arts     []Artist
-	Art      Artist
+	Code      int
+	MsgError  string
+	Arts      []Artist
+	Art       Artist
 	ArtGroups [][]Artist
 }
 
 var Data = &Page{}
 
-
-
 func RenderPage(page string, res http.ResponseWriter) {
-//
-
+	//
 
 	temp, err := template.ParseFiles("templates/" + page + ".html")
 	if err != nil {
 		fmt.Println(err)
 		if page == "error" {
-
 			http.Error(res, "Internal Server Error", 500)
 			return
 		}
@@ -80,6 +77,10 @@ func HandelHome(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if req.URL.Path != "/" {
+		if strings.ContainsRune(req.URL.Path[1:], '/') {
+			http.Redirect(res, req, "/notFound", http.StatusFound)
+			return
+		}
 		Error(res, 404, "Oops!! Page Not Found")
 		return
 	}
@@ -91,10 +92,11 @@ func HandelArtist(res http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		Error(res, 405, "Method Not Allowed")
 	}
+
 	id := strings.TrimPrefix(req.URL.Path, "/artist/")
 	idTemp, err := strconv.Atoi(id)
 	if err != nil {
-		Error(res, 404, "Oops!! Page Not Found")
+		http.Redirect(res, req, "/notFound", http.StatusFound)
 		return
 	}
 	if idTemp < 1 || idTemp > len(Data.Arts) {
@@ -116,4 +118,15 @@ func HandelArtist(res http.ResponseWriter, req *http.Request) {
 	}
 	//
 	RenderPage("artist", res)
+}
+
+func CssHandler(res http.ResponseWriter, req *http.Request) {
+	filePath := "res/css/" + req.URL.Path[len("/css/"):]
+	_, err := os.Stat(filePath)
+	if err != nil {
+		http.Redirect(res, req, "/notFound", http.StatusFound)
+		return
+	}
+	http.StripPrefix("/css/", http.FileServer(http.Dir("res/css/"))).ServeHTTP(res, req)
+	
 }

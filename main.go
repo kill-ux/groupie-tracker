@@ -37,7 +37,7 @@ func main() {
 	}
 	http.HandleFunc("/", Groupie.HandelHome)
 	http.HandleFunc("/artist/", Groupie.HandelArtist)
-	http.Handle("/css/", http.StripPrefix("/css/",http.FileServer(http.Dir("res/css/"))))
+	http.HandleFunc("/css/", Groupie.CssHandler)
 	fmt.Println("http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

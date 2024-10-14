@@ -115,6 +115,10 @@ p {
 text-align: center;
 }
 
+.div-image img {
+  margin-top: 10px;
+}
+
 .image-artist {
   border: 1px solid #ddd;
   border-radius: 4px;
