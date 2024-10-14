@@ -33,11 +33,17 @@ type Page struct {
 	MsgError string
 	Arts     []Artist
 	Art      Artist
+	ArtGroups [][]Artist
 }
 
 var Data = &Page{}
 
+
+
 func RenderPage(page string, res http.ResponseWriter) {
+//
+
+
 	temp, err := template.ParseFiles("templates/" + page + ".html")
 	if err != nil {
 		fmt.Println(err)
@@ -77,6 +83,7 @@ func HandelHome(res http.ResponseWriter, req *http.Request) {
 		Error(res, 404, "Oops!! Page Not Found")
 		return
 	}
+
 	RenderPage("index", res)
 }
 

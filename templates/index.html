@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artistes</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artistes</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
-    <h1>Groupie Tracker</h1>
-    <div class="cards">
-        {{ range .Arts }}
-        <a href="/artist/{{.Id}}">
-            <div class="card">
-                <h3>{{.Name}}</h3>
-                <img class="image" src="{{.Image}}" alt="">
-                <p>CreationDate: {{.CreationDate}}</p>
-            </div>
-        </a>
-        {{ end }}
+  <div class="filter"></div>
+  <h1>Groupie Tracker</h1>
+  {{ range .ArtGroups }}
+  <div class="cards" style="--quantity: {{ len . }}">
+    {{ range . }}
+
+    <div class="card" style="--position: {{ .Id }}">
+      <a href="/artist/{{.Id}}">
+        <h3>{{.Name}}</h3>
+        <img class="image" src="{{.Image}}" alt="" />
+        <p>CreationDate: {{.CreationDate}}</p>
+      </a>
     </div>
+
+    {{ end }}
+  </div>
+  {{ end }}
 </body>
+
 </html>

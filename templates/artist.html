@@ -13,6 +13,7 @@
         <div class="div-image">
             <img class="image-artist" src="{{.Art.Image}}" alt="">
         </div>
+
         <div class="div-content">
             <h2>{{.Art.Name}}</h2>
             <div>
@@ -20,9 +21,25 @@
                 <p>FirstAlbum: {{.Art.FirstAlbum}}</p>
             </div>
             <div>
-                Members: {{.Art.Members}}
+                Members:
+                <ul>
+                    {{range .Art.Members}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
             </div>
-            <div>upcoming conserts: {{.Art.Concerts.DatesLocations}}</div>
+            <div class="concerts">
+                {{ range $key,$value := .Art.Concerts.DatesLocations}}
+                <details>
+                    <summary>{{$key}}</summary>
+                    {{ range $value}}
+                    <p>{{.}}</p>
+                    {{ end }}
+                </details>
+                {{end}}
+            </div>
+
+
         </div>
     </div>
 </body>
