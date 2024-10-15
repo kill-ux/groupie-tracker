@@ -16,17 +16,30 @@ type Concert struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
+type DataConcertDates struct {
+	Id    int      `json:"id"`
+	Dates []string `json:"dates"`
+}
+
+type DataLocations struct {
+	Id        int      `json:"id"`
+	Locations []string `json:"locations"`
+	Dates     string   `json:dates`
+}
+
 type Artist struct {
-	Id           int      `json:"id"`
-	Name         string   `json:"name"`
-	Image        string   `json:"image"`
-	Members      []string `json:"members"`
-	CreationDate int      `json:"creationDate"`
-	FirstAlbum   string   `json:"firstAlbum"`
-	Locations    string   `json:"locations"`
-	ConcertDates string   `json:"concertDates"`
-	Relations    string   `json:"relations"`
-	Concerts     Concert
+	Id               int      `json:"id"`
+	Name             string   `json:"name"`
+	Image            string   `json:"image"`
+	Members          []string `json:"members"`
+	CreationDate     int      `json:"creationDate"`
+	FirstAlbum       string   `json:"firstAlbum"`
+	Locations        string   `json:"locations"`
+	ConcertDates     string   `json:"concertDates"`
+	Relations        string   `json:"relations"`
+	DataLocations    DataLocations
+	DataConcertDates DataConcertDates
+	Concerts         Concert
 }
 
 type Page struct {
@@ -40,8 +53,6 @@ type Page struct {
 var Data = &Page{}
 
 func RenderPage(page string, res http.ResponseWriter) {
-	//
-
 	temp, err := template.ParseFiles("templates/" + page + ".html")
 	if err != nil {
 		fmt.Println(err)
@@ -100,24 +111,25 @@ func HandelArtist(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if idTemp < 1 || idTemp > len(Data.Arts) {
-		Error(res, 404, "Oops!! Page Not Found")
+		http.Redirect(res, req, "/notFound", http.StatusFound)
 		return
 	}
 	Data.Art = Data.Arts[idTemp-1]
-	//
-	resGet, err := http.Get(Data.Art.Relations)
+	Fetch(Data.Art.Relations, &Data.Art.Concerts)
+	Fetch(Data.Art.Locations, &Data.Art.DataLocations)
+	Fetch(Data.Art.ConcertDates, &Data.Art.DataConcertDates)
+	RenderPage("artist", res)
+}
+
+func Fetch(url string, data any) {
+	resGet, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Error fetching data: %v", err.Error())
 	}
 	defer resGet.Body.Close()
-	if resGet.StatusCode != http.StatusOK {
-		log.Fatalf("Error: Status code %d ", resGet.StatusCode)
-	}
-	if err := json.NewDecoder(resGet.Body).Decode(&Data.Art.Concerts); err != nil {
+	if err := json.NewDecoder(resGet.Body).Decode(&data); err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)
 	}
-	//
-	RenderPage("artist", res)
 }
 
 func CssHandler(res http.ResponseWriter, req *http.Request) {
@@ -128,5 +140,4 @@ func CssHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	http.StripPrefix("/css/", http.FileServer(http.Dir("res/css/"))).ServeHTTP(res, req)
-	
 }

@@ -103,9 +103,11 @@ p {
 }
 
 .artist {
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   height: 100vh;
   flex-wrap: wrap;

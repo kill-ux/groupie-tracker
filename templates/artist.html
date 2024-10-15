@@ -28,6 +28,22 @@
                     {{end}}
                 </ul>
             </div>
+            <div>
+                Locations:
+                <ul>
+                    {{range .Art.DataLocations.Locations}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
+            </div>
+            <div>
+                Dates:
+                <ul>
+                    {{range .Art.DataConcertDates.Dates}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
+            </div>
             <div class="concerts">
                 {{ range $key,$value := .Art.Concerts.DatesLocations}}
                 <details>
@@ -38,8 +54,6 @@
                 </details>
                 {{end}}
             </div>
-
-
         </div>
     </div>
 </body>
