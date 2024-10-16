@@ -1,21 +1,25 @@
 package groupie
 
+// is the data of Relations for one artist
 type Concert struct {
 	Id             int                 `json:"id"`
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
+// is the data of ConcertDates for one artist
 type DataConcertDates struct {
 	Id    int      `json:"id"`
 	Dates []string `json:"dates"`
 }
 
+// is the data of Locations for one artist
 type DataLocations struct {
 	Id        int      `json:"id"`
 	Locations []string `json:"locations"`
 	Dates     string   `json:dates`
 }
 
+// data of one artist
 type Artist struct {
 	Id               int      `json:"id"`
 	Name             string   `json:"name"`
@@ -31,6 +35,7 @@ type Artist struct {
 	Concerts         Concert
 }
 
+// data to be shown in the page 
 type Page struct {
 	Code      int
 	MsgError  string

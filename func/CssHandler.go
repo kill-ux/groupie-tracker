@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// Handler css files
 func CssHandler(res http.ResponseWriter, req *http.Request) {
 	filePath := "res/css/" + req.URL.Path[len("/css/"):]
 	if filePath == "res/css/" {

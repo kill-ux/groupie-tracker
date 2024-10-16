@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// render page of html
 func RenderPage(page string, res http.ResponseWriter) {
 	temp, err := template.ParseFiles("templates/" + page + ".html")
 	if err != nil {

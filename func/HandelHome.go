@@ -7,6 +7,7 @@ import (
 
 var Data = &Page{}
 
+// Home page contain data about artits
 func HandelHome(res http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		Error(res, 405, "Method Not Allowed")

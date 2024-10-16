@@ -9,6 +9,7 @@ import (
 	"sync"
 )
 
+// to show the dtails of specific artist
 func HandelArtist(res http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		Error(res, 405, "Method Not Allowed")
@@ -36,6 +37,7 @@ func HandelArtist(res http.ResponseWriter, req *http.Request) {
 	RenderPage("artist", res)
 }
 
+// Fetch a data
 func Fetch(wg *sync.WaitGroup, url string, data any) {
 	defer wg.Done()
 	resGet, err := http.Get(url)
@@ -43,6 +45,9 @@ func Fetch(wg *sync.WaitGroup, url string, data any) {
 		log.Fatalf("Error fetching data: %v", err.Error())
 	}
 	defer resGet.Body.Close()
+	if resGet.StatusCode != http.StatusOK {
+		log.Fatalf("Error: Status code %d ", resGet.StatusCode)
+	}
 	if err := json.NewDecoder(resGet.Body).Decode(&data); err != nil {
 		log.Fatalf("Error decoding JSON: %v", err)
 	}

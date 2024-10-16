@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	// Fetch a data 
 	res, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
 		log.Fatalf("Error fetching data: %v", err.Error())
