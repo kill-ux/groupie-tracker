@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 type Concert struct {
@@ -115,13 +116,19 @@ func HandelArtist(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	Data.Art = Data.Arts[idTemp-1]
-	Fetch(Data.Art.Relations, &Data.Art.Concerts)
-	Fetch(Data.Art.Locations, &Data.Art.DataLocations)
-	Fetch(Data.Art.ConcertDates, &Data.Art.DataConcertDates)
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go Fetch(&wg, Data.Art.Relations, &Data.Art.Concerts)
+	wg.Add(1)
+	go Fetch(&wg, Data.Art.Locations, &Data.Art.DataLocations)
+	wg.Add(1)
+	go Fetch(&wg, Data.Art.ConcertDates, &Data.Art.DataConcertDates)
+	wg.Wait()
 	RenderPage("artist", res)
 }
 
-func Fetch(url string, data any) {
+func Fetch(wg *sync.WaitGroup, url string, data any) {
+	defer wg.Done()
 	resGet, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Error fetching data: %v", err.Error())
