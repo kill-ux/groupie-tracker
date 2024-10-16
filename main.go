@@ -12,7 +12,6 @@ func main() {
 	if len(Groupie.Data.Arts) == 0 {
 		log.Fatalf("Error fetching data")
 	}
-
 	http.HandleFunc("/", Groupie.HandelHome)
 	http.HandleFunc("/artist/", Groupie.HandelArtist)
 	http.HandleFunc("/css/", Groupie.CssHandler)

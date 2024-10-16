@@ -91,6 +91,7 @@ a {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   cursor: crosshair;
+  margin: 0;
 }
 
 p {
@@ -188,7 +189,7 @@ details summary {
   .card {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.829), #393e46);
     margin: 20px;
-    padding: 20px;
+    /* padding: 20px; */
     box-shadow: 10px 10px 0px rgb(190, 190, 190),
       -10px -10px 0px rgba(245, 245, 245, 0.425);
     border-radius: 5px 0;
